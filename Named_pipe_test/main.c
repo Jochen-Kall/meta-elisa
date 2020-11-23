@@ -2,6 +2,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdbool.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 unsigned int Message_counter=0;
 
@@ -52,10 +54,11 @@ bool do_E2Echeck(unsigned char Message[6])
 
 int main()
 {
-const char* Pipe="./Rohr";
+const char* Pipe="./Pipe";
 unsigned char Message[6];
-printf("hallo hier bin ich und lausche am Rohr\n");
+printf("here I am, listening to a pipe\n");
 
+mkfifo(Pipe,0666);
 int fd=open(Pipe, O_RDONLY);
 while (1) {
     if (read(fd,Message,6) > 0)
@@ -67,11 +70,12 @@ while (1) {
         }
         else
         {
-            printf("Da haben wir den Salat, SAFESTATE\n");
+            printf("What a mess!, SAFESTATE\n");
         }
     }
-    usleep(100000);
-    printf("hallo hier bin ich und habe 1 s gewartet\n");
+    int sleeptime=100000;
+    usleep(sleeptime);
+    printf("here I am, having waited for %f seconds \n",sleeptime / 1000000.0);
 }
 //close file again
 close(fd);

@@ -2,19 +2,21 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdbool.h>
-
-#include <stdlib.h>
 // Needed for random numbers
-
+#include <stdlib.h>
+//needed for mkfifo function
+#include <sys/types.h>
+#include <sys/stat.h>
 int main()
 {
-    const char* Pipe="./Rohr";
+    const char* Pipe="./Pipe";
     unsigned int MC=0;
-    unsigned char Message[7];
+    unsigned char Message[6];
     
     const bool test_checksum=false;
     const bool test_skip_message=false;
 
+    mkfifo(Pipe,0666);
     int fd=open(Pipe, O_WRONLY);
     while (1){
         Message[0]=1;
@@ -30,7 +32,6 @@ int main()
             Message[5]=random();
         }
 
-        //Message[6] = "\n";
         printf("Sending Message %i\n",MC);
         printf("%i %i %i %i %i \n",Message[0],Message[1],Message[2],Message[3],Message[4]);
 
@@ -43,7 +44,8 @@ int main()
         }
         
         MC+=1;
-        usleep(1000000);
+        int sleeptime=100000;
+        usleep(sleeptime);
     }
     close(fd);
 
