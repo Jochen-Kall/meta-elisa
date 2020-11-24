@@ -14,11 +14,13 @@ SRCREV = "${AUTOREV}"
 
 #needed to install systemd services
 inherit systemd
-SYSTEMD_SERVICE_${PN} = "signal-source.service"
+#add and enable the services
+SYSTEMD_SERVICE_${PN} = "signal-source.service safety-app.service"
 SYSTEMD_AUTO_ENABLE = "enable"
 
-#make the service file known
+#make the service files known
 SRC_URI += "file://signal-source.service"
+SRC_URI += "file://safety-app.service"
 
 #Package version
 PV = "1.0+git${SRCPV}"
@@ -40,9 +42,10 @@ do_install() {
 #    install -m 0755 -d ${D}/usr/bin/
 #    install -m 0755 ${S}/Signalsource ${D}/usr/bin/
     oe_runmake install 'DESTDIR=${D}'
-# install the signal-source service
+# install the signal-source service and the safety-app service
     install -d -m 755 ${D}${systemd_unitdir}/system
-    install -m 644 ${WORKDIR}/signal-source.service ${D}${systemd_unitdir}/system    
+    install -m 644 ${WORKDIR}/signal-source.service ${D}${systemd_unitdir}/system
+    install -m 644 ${WORKDIR}/safety-app.service ${D}${systemd_unitdir}/system     
 }
 
 #Packaging information: tell the system that the copied file belongs to this package, otherwise it belongs to no package, and bitbake cries
