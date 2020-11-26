@@ -7,7 +7,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
 #giving the source as a git repository, and branch
 #Once we have sorted out the repo location issue, this will move there
-SRC_URI = "git://github.com/Jochen-Kall/Safety-app.git;branch=main;protocol=https;"
+#SRC_URI = "git://github.com/Jochen-Kall/Safety-app.git;branch=main;protocol=https;"
+SRC_URI = "git://github.com/Jochen-Kall/Safety-app.git;branch=control_pipe;protocol=https;"
+
+# local clone, for dev purpose
+#SRC_URI = "git:////home/jochen/Documents/Safety-app;branch=main"
 
 #set the revision to "latest" to make development more convenient
 SRCREV = "${AUTOREV}"
@@ -48,10 +52,6 @@ do_install() {
     install -m 644 ${WORKDIR}/safety-app.service ${D}${systemd_unitdir}/system     
 }
 
-#Packaging information: tell the system that the copied file belongs to this package, otherwise it belongs to no package, and bitbake cries
-#FILES_${PN} += "Signalsource"
-
-
 #python do_build() {
 #    bb.plain("***********************************************");
 #    bb.plain("*                                             *");
@@ -59,3 +59,7 @@ do_install() {
 #    bb.plain("*                                             *");
 #    bb.plain("***********************************************");
 #}
+
+# having the clean: target can trip us up, if the files to be removed never 
+# were created in the first place for whatever reason, thus this flag
+CLEANBROKEN = "1"
