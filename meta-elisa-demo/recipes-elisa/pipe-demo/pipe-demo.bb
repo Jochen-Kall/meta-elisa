@@ -20,6 +20,9 @@ SYSTEMD_AUTO_ENABLE = "enable"
 SRC_URI += "file://signal-source.service"
 SRC_URI += "file://safety-app.service"
 
+#add the patch for watchdog
+SRC_URI += " file://0001-Add-watchdog-support.patch "
+
 DEPENDS += "ncurses"
 
 #Package version
