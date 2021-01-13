@@ -21,7 +21,7 @@ SRC_URI += "file://signal-source.service"
 SRC_URI += "file://safety-app.service"
 
 #add the patch for watchdog
-SRC_URI += " file://0001-Add-watchdog-support.patch "
+SRC_URI += " file://0001-Add-watchdog-support.patch file://0001-Modify-timeout-using-ioctl.patch "
 
 DEPENDS += "ncurses"
 

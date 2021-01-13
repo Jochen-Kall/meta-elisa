@@ -3,7 +3,7 @@ Description=Elisa Demo Safety Application
 
 [Service]
 Type=simple
-ExecStartPre=modprobe softdog soft_margin=10
+ExecStartPre=modprobe softdog
 ExecStart=/usr/bin/safety-app
 
 [Install]
